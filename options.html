@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>GitHub Custom Buttons — Options</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Noto Sans, Helvetica, Arial, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      padding: 32px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    h1 { font-size: 1.4rem; margin-bottom: 24px; font-weight: 600; }
+    h2 { font-size: 1.1rem; margin-bottom: 16px; font-weight: 600; }
+
+    .form-group { margin-bottom: 14px; }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: #8b949e;
+      margin-bottom: 4px;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 8px 12px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      color: #e6edf3;
+      font-size: 0.9rem;
+    }
+    input[type="text"]:focus, select:focus {
+      outline: none;
+      border-color: #58a6ff;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .checkbox-group input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #238636;
+    }
+    .checkbox-group label { margin-bottom: 0; color: #e6edf3; }
+
+    .btn {
+      padding: 6px 16px;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: #e6edf3;
+      background: #21262d;
+    }
+    .btn:hover { background: #30363d; }
+    .btn-primary {
+      background: #238636;
+      border-color: #238636;
+      color: #fff;
+    }
+    .btn-primary:hover { background: #2ea043; }
+    .btn-danger {
+      background: transparent;
+      border-color: #da3634;
+      color: #f85149;
+    }
+    .btn-danger:hover { background: rgba(218, 54, 52, 0.15); }
+
+    .form-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .status {
+      font-size: 0.85rem;
+      margin-top: 8px;
+      min-height: 1.2em;
+    }
+    .status-ok { color: #3fb950; }
+    .status-err { color: #f85149; }
+
+    hr {
+      border: none;
+      border-top: 1px solid #30363d;
+      margin: 28px 0;
+    }
+
+    .button-list { list-style: none; }
+    .button-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+    .button-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+      flex: 1;
+    }
+    .button-name { font-weight: 600; font-size: 0.9rem; }
+    .button-meta {
+      font-size: 0.78rem;
+      color: #8b949e;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .button-actions {
+      display: flex;
+      gap: 6px;
+      margin-left: 12px;
+      flex-shrink: 0;
+    }
+    .btn-move {
+      padding: 4px 6px;
+      font-size: 0.7rem;
+      line-height: 1;
+      min-width: 0;
+    }
+    .empty-state {
+      color: #8b949e;
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <h1>GitHub Custom Buttons</h1>
+
+  <div id="form-section">
+    <h2 id="form-title">Add Button</h2>
+    <input type="hidden" id="edit-id">
+    <div class="form-group">
+      <label for="btn-name">Name</label>
+      <input type="text" id="btn-name" placeholder="My Button">
+    </div>
+    <div class="form-group">
+      <label for="btn-url">URL</label>
+      <input type="text" id="btn-url" placeholder="https://example.com">
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" id="btn-newtab" checked>
+      <label for="btn-newtab">Open in new tab</label>
+    </div>
+    <div class="form-group">
+      <label for="btn-placement">Placement</label>
+      <select id="btn-placement">
+        <option value="breadcrumbs">Breadcrumbs (right-justified)</option>
+        <option value="breadcrumbs-center">Breadcrumbs (centered)</option>
+        <option value="buttongroup">Button Group (before children)</option>
+      </select>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" id="save-btn">Add</button>
+      <button class="btn" id="cancel-btn" style="display:none">Cancel</button>
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+
+  <hr>
+
+  <h2>Your Buttons</h2>
+  <ul class="button-list" id="button-list"></ul>
+
+  <script src="options.js"></script>
+</body>
+</html>

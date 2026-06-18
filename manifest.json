@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "GitHub Custom Buttons",
+  "version": "1.0",
+  "description": "Add custom buttons to GitHub pages with configurable placement.",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_page": "options.html"
+}

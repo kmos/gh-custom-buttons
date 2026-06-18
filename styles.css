@@ -1,0 +1,45 @@
+.gh-custom-buttons-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.gh-custom-buttons-breadcrumbs-center {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.gh-custom-buttons-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gh-custom-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #e6edf3;
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.gh-custom-btn:hover {
+  background: #30363d;
+  border-color: #8b949e;
+  color: #e6edf3;
+  text-decoration: none;
+}
