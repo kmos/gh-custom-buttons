@@ -21,19 +21,18 @@ function injectButtons(buttons) {
   const breadcrumbRightBtns = buttons.filter((b) => b.placement === "breadcrumbs");
   const breadcrumbCenterBtns = buttons.filter((b) => b.placement === "breadcrumbs-center");
   const groupBtns = buttons.filter((b) => b.placement === "buttongroup");
-
   const bcHost = document.querySelector(BREADCRUMBS_SEL);
   if (bcHost && !bcHost.hasAttribute(INJECTED_ATTR) && (breadcrumbRightBtns.length || breadcrumbCenterBtns.length)) {
     bcHost.setAttribute(INJECTED_ATTR, "1");
     if (breadcrumbCenterBtns.length) {
       const wrapper = document.createElement("div");
-      wrapper.className = WRAPPER_CLASS + " gh-custom-buttons-breadcrumbs-center";
+      wrapper.className = WRAPPER_CLASS + " gh-custom-buttons-breadcrumbs-center hide-sm hide-md";
       breadcrumbCenterBtns.forEach((cfg) => wrapper.appendChild(createButton(cfg)));
       bcHost.appendChild(wrapper);
     }
     if (breadcrumbRightBtns.length) {
       const wrapper = document.createElement("div");
-      wrapper.className = WRAPPER_CLASS + " gh-custom-buttons-breadcrumbs";
+      wrapper.className = WRAPPER_CLASS + " gh-custom-buttons-breadcrumbs hide-sm hide-md";
       breadcrumbRightBtns.forEach((cfg) => wrapper.appendChild(createButton(cfg)));
       bcHost.appendChild(wrapper);
     }
@@ -44,31 +43,29 @@ function injectButtons(buttons) {
     if (host && !host.hasAttribute(INJECTED_ATTR)) {
       host.setAttribute(INJECTED_ATTR, "1");
       const wrapper = document.createElement("div");
-      wrapper.className = WRAPPER_CLASS + " gh-custom-buttons-group";
+      wrapper.className = WRAPPER_CLASS + " gh-custom-buttons-group hide-sm hide-md";
       groupBtns.forEach((cfg) => wrapper.appendChild(createButton(cfg)));
       host.insertBefore(wrapper, host.firstChild);
     }
-  }
-}
+  }}
 
 function isContextValid() {
   try { return !!chrome.runtime?.id; } catch { return false; }
 }
 
 let debounceTimer = null;
+const HOST_SELS = [BREADCRUMBS_SEL, BUTTONGROUP_SEL];
 
-const observer = new MutationObserver((mutations) => {
+const observer = new MutationObserver(() => {
   if (!isContextValid()) { observer.disconnect(); return; }
-  const el = (n) => n.nodeType === Node.ELEMENT_NODE ? n : n.parentElement;
-  const dominated = mutations.every((m) => {
-    const t = el(m.target);
-    return t && t.closest("." + WRAPPER_CLASS);
-  });
-  if (dominated) return;
-  const hasNew = mutations.some((m) => m.addedNodes.length > 0);
-  if (!hasNew) return;
   clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(run, 100);
+  debounceTimer = setTimeout(() => {
+    const needsWork = HOST_SELS.some((sel) => {
+      const host = document.querySelector(sel);
+      return host && !host.hasAttribute(INJECTED_ATTR);
+    });
+    if (needsWork) run();
+  }, 100);
 });
 
 function run() {
